@@ -1,19 +1,20 @@
 1. bikin page baru redirect dari daftar online di http://medspinfkunair.com/id/
     isinya krg lebih:
-    - Select/radio button buat oilihan daftar online/offline
-    - input date buat early reg (<1 agust) dan reg
+    - input date buat early reg (<1 agust) dan reg --> ini otomatis jadi timestamp aja gaksih norr
     - select wilayah
+    - Select/radio button buat pilihan daftar online/offline -> kalau wilayah ada panwilnya bisa dipilih, kalau gaadaudah dipastiin online
     - button submit (generate nomor peserta di db)
 2. Page sign up
   - email
   - username
   - password
-3. Page profile
+3. Page profile dan submission bukti bayar
   - ada 3 box (kaya member compfest #yoi)
   - nama
   - asal sekolah
   - ttl
   - email
+  - upload bukti bayar
   - button submit
 4. Done, kirim nomor peserta ke email
-5. Rancang dashboard, isinya profile mereka dan submission buat upload bukti bayar
+5. Rancang dashboard, isinya profile mereka
