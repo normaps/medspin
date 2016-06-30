@@ -3,73 +3,58 @@
     $conn = connectDB();
 ?>
 <head>
-  <meta name="description" content="MEDSPIN FK UNAIR 2015, Olimpiade Kedokteran Untuk Siswa SMA & Sederajat Se-Asia Tenggara Diselenggarakan Oleh FK UNAIR Pada 8, 21, & 22 November 2015"> 
-  <meta name="keywords" content="Login Medspin FK UNAIR, Medspin 2015, Olimpiade Kedokteran, Medspin FK UNAIR 2015">
+  <meta name="description" content="MEDSPIN FK UNAIR 2015=6, Olimpiade Kedokteran Untuk Siswa SMA & Sederajat Se-Asia Tenggara Diselenggarakan Oleh FK UNAIR Pada 8, 21, & 22 November 2015"> 
+  <meta name="keywords" content="Login Medspin FK UNAIR, Medspin 2015, Olimpiade Kedokteran, Medspin FK UNAIR 2016">
   <meta name="author" content="">
   <meta charset="UTF-8"> 
 
   <title>PENDAFTARAN ONLINE MEDSPIN FK UNAIR 2016</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
 </head>
+
 <body style="background:url(http://medspinfkunair.com/pq/images/bg-w.png);">
 
 <div clas="row" style=" font-size:20; font-weight:700; color:white;  background-color:#028fcc; padding:20px 50px; top:0; left:0; right:0; text-align:center;">
   <h2>PENDAFTARAN ONLINE MEDSPIN 2016</h2>
 </div>
 <div class="row" style="margin:0 auto; padding:20px;">
+  <form role="form" method="post" class="col-md-10" style="">
   <div class='col-md-6' id="sign_up_form">
-    <form role="form" method="post" class="col-md-10" style="">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input class="form-control" name="username" placeholder="Masukkan Username" required>
-      </div>
-      <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control" name="pwd" placeholder="Masukkan password" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" name="email" placeholder="Enter email" required>
-      </div>
-      <div class="form-group">
-        <label for="phone">Telepon:</label>
-        <input class="form-control" name="phone" placeholder="Nomor telepon yang bisa dihubungi" required>
-      </div>
-      <div class="form-group">
-        <label for="sekolah">Nama Sekolah:</label>
-        <input class="form-control" name="sekolah" placeholder="Masukkan nama sekolah Anda" required>
-      </div>
-      <div class="form-group">
-        <label for="Alamat_sekolah">Alamat Sekolah:</label>
-        <textarea class="form-control" rows="5" name="alamat_sekolah" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="select_lokasi">Lokasi:</label>
-        <select class="form-control" name="lokasi[]">
-          <option value='all'>Pilih Lokasi</option>
-          <?php
-            $sql2 = "SELECT nama FROM wilayah";
-            $result2 = mysqli_query ($conn, $sql2);
-            while($row = mysqli_fetch_assoc($result2)){
-              echo '<option value="'.$row['nama'].'">'.$row['nama'].'</option>';
-            }
-          ?>
-        </select>
-      </div>
-      <div class="radio">
-        <label><input type="radio" name="metode_ujian" required>Ujian offline</label>
-      </div>
-      <div class="radio">
-        <label><input type="radio" name="metode_ujian">Ujian online</label>
-      </div>
-      <div class="text-center">
-        <button type="submit" class="btn btn-primary">DAFTAR</button>
-      </div>
-    </form>
+    <div class="form-group">
+      <label for="sekolah">Asal Sekolah:</label>
+      <input class="form-control" name="sekolah" placeholder="Masukkan nama sekolah Anda" required>
+    </div>
+    <div class="form-group">
+      <label for="Alamat_sekolah">Alamat Sekolah:</label>
+      <textarea class="form-control" rows="5" name="alamat_sekolah" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="select_lokasi">Lokasi:</label>
+      <select class="form-control" name="lokasi[]">
+        <option value='all'>Pilih Lokasi</option>
+        <?php
+          $sql2 = "SELECT nama FROM wilayah";
+          $result2 = mysqli_query ($conn, $sql2);
+          while($row = mysqli_fetch_assoc($result2)){
+            echo '<option value="'.$row['nama'].'">'.$row['nama'].'</option>';
+          }
+        ?>
+      </select>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="metode_ujian" required>Ujian offline</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="metode_ujian">Ujian online</label>
+    </div>
+    <div class="form-group">
+      <label for="phone">Telepon:</label>
+      <input class="form-control" name="phone" placeholder="Nomor telepon yang bisa dihubungi" required>
+    </div>    
   <?php 
     if(isset($_POST['username'])){
         $username = $_POST['username'];
@@ -121,23 +106,125 @@
       }
   ?>
   </div>
-  <div class='col-md-6' id="panduan">
-      <div class="panel panel-default">
-        <div class="panel-heading"><h3 style="text-align:center;">PANDUAN PENDAFTARAN ONLINE</h3></div>
-        <div class="panel-body" style="text-align:justify;">
-          <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi consequat, dolor eu efficitur vestibulum, lectus orci semper ligula, quis viverra mi augue at ante. Phasellus velit nunc, tempor non mattis a, fermentum a ex. Suspendisse fermentum sapien et dapibus lobortis. Praesent in tortor justo. Ut gravida magna sit amet dolor porttitor, non lobortis erat convallis. Praesent sit amet justo lectus. Vestibulum nulla dui, volutpat non tincidunt sed, dictum vitae massa. Vivamus nec accumsan massa. Cras sit amet pretium augue. Sed ligula leo, pretium eu ultricies et, consequat vulputate risus. Aliquam sed enim elementum magna tempor tincidunt ullamcorper eu elit. Nunc interdum, quam quis dictum gravida, ex nulla ullamcorper nibh, non eleifend quam leo at lacus. Quisque eu purus enim. Aliquam scelerisque placerat libero vel fermentum. Integer elementum iaculis libero.
-
-          Pellentesque semper nec tortor sit amet dapibus. Donec congue, lorem sed aliquam pulvinar, nulla ligula iaculis nisl, in dignissim erat ipsum id ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris at nisl eros. Pellentesque rhoncus blandit odio eget tincidunt. Proin vel lacus urna. Vivamus pretium pulvinar metus ut lacinia. Donec eget urna ornare, placerat orci nec, interdum ante. Maecenas aliquam aliquam massa, vel varius leo varius nec. Vestibulum eu commodo odio. In vestibulum nibh quis magna pellentesque maximus. Ut condimentum sit amet elit quis pretium. Donec id mi nisl. Etiam fermentum purus eget lorem posuere, eu consequat sem accumsan. Vivamus at placerat dui.
-
-          Donec molestie auctor turpis, tincidunt laoreet elit finibus a. Maecenas sagittis sollicitudin odio sit amet mollis. Aliquam condimentum massa non bibendum eleifend. Donec quis neque eleifend, dictum orci eget, facilisis metus. Aenean vehicula sapien sit amet feugiat laoreet. Quisque ullamcorper velit ante, sed placerat dui ultrices vel. Vestibulum vulputate nunc non metus auctor, quis congue ex rhoncus. Praesent tempus neque placerat orci efficitur, sed porttitor leo congue.
-
-          Sed ipsum ligula, aliquet ac convallis imperdiet, tempor sed lorem. Mauris congue non leo et accumsan. Nunc purus odio, vestibulum sit amet dui quis, molestie vehicula augue. Duis fringilla leo sit amet molestie congue. Suspendisse cursus porttitor odio, vel condimentum tellus. Cras placerat enim eros. Etiam eleifend vel tellus vitae tempor.
-
-          Praesent eu diam quis ipsum consequat feugiat nec sit amet nibh. Sed accumsan mattis nibh, a rhoncus eros posuere vitae. Vestibulum posuere vel enim nec laoreet. Suspendisse potenti. Nam a purus lectus. Nulla euismod diam ut eros pellentesque, sed mattis orci egestas. Cras euismod gravida tristique. Fusce condimentum, nunc vitae euismod tempor, massa nulla efficitur metus, quis rutrum ligula magna nec lectus. Vivamus pellentesque sollicitudin erat sed euismod. Fusce dictum turpis ut massa molestie convallis. Integer fermentum augue in pretium maximus. Morbi mattis pulvinar nibh.
-          </p>
+  <div style="clear:both;" id="data_peserta">
+      <div class="row">
+        <div class="card col-md-3" style="margin: 10px;">
+          <div class="card-header" style=" text-align:center;">
+            <h4 class="card-title">Peserta #1</h4>
+            <h6 class="card-subtitle text-muted">Ketua</h6>
+          </div>
+          <div class="card-block">
+            <div class="form-group">
+              <label for="nama">Nama Lengkap:</label>
+              <input class="form-control" id="nama" placeholder="Masukkan Nama Lengkap Peserta #1" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" placeholder="Masukkan Email Peserta #1" required>
+            </div>
+            <div class="form-group">
+              <label for="ttl">Tempat, Tanggal Lahir:</label>
+              <input class="form-control" id="ttl" placeholder="Jakarta, 1 Januari 1999" required>
+            </div>
+            <div class="form-group">
+              <label for="nis">NIS:</label>
+              <input class="form-control" id="nis" placeholder="Masukkan NIS Peserta #1" required>
+            </div>
+            <div class="form-group">
+              <label for="uploadFoto">Pas Foto</label>
+              <input type="file" name="uploadFoto" required>
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </div>
+            <div class="form-group">
+              <label for="uploadKartu">Kartu NIS</label>
+              <input type="file" name="uploadNIS" required>
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </div>
+          </div>
+        </div>
+        <div class="card col-md-3" style="margin: 10px;">
+          <div class="card-header" style="text-align:center;">
+            <h4 class="card-title">Peserta #2</h4>
+            <h6 class="card-subtitle text-muted">Anggota</h6>
+          </div>
+          <div class="card-block">
+            <div class="form-group">
+              <label for="nama">Nama Lengkap:</label>
+              <input class="form-control" id="nama" placeholder="Masukkan Nama Lengkap Peserta #2" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" placeholder="Masukkan Email Peserta #2" required>
+            </div>
+            <div class="form-group">
+              <label for="ttl">Tempat, Tanggal Lahir:</label>
+              <input class="form-control" id="ttl" placeholder="Jakarta, 1 Januari 1999" required>
+            </div>
+            <div class="form-group">
+              <label for="nis">NIS:</label>
+              <input class="form-control" id="nis" placeholder="Masukkan NIS Peserta #2" required>
+            </div>
+            <div class="form-group">
+              <label for="uploadFoto">Pas Foto</label>
+              <input type="file" name="uploadFoto" required>
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </div>
+            <div class="form-group">
+              <label for="uploadKartu">Kartu NIS</label>
+              <input type="file" name="uploadNIS" required>
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </div>
+          </div>
+        </div>
+        <div class="card col-md-3" style="margin: 10px;">
+          <div class="card-header" style="text-align:center;">
+            <h4 class="card-title">Peserta #3</h4>
+            <h6 class="card-subtitle text-muted">Anggota</h6>
+          </div>
+          <div class="card-block">
+            <div class="form-group">
+              <label for="nama">Nama Lengkap:</label>
+              <input class="form-control" id="nama" placeholder="Masukkan Nama Lengkap Peserta #3" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" placeholder="Masukkan Email Peserta #3" required>
+            </div>
+            <div class="form-group">
+              <label for="ttl">Tempat, Tanggal Lahir:</label>
+              <input class="form-control" id="ttl" placeholder="Jakarta, 1 Januari 1999" required>
+            </div>
+            <div class="form-group">
+              <label for="nis">NIS:</label>
+              <input class="form-control" id="nis" placeholder="Masukkan NIS Peserta #3" required>
+            </div>
+            <div class="form-group">
+              <label for="uploadFoto">Pas Foto</label>
+              <input type="file" name="uploadFoto" required>
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </div>
+            <div class="form-group">
+              <label for="uploadKartu">Kartu NIS</label>
+              <input type="file" name="uploadNIS" required>
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </div>
+          </div>
         </div>
       </div>
   </div>
+  <div class="row" id="bukti_bayar">
+    <div class="form-group">
+      <label for="uploadBayar">Upload Bukti Pembayaran</label>
+      <input type="file" name="uploadBayar" required>
+      <!-- <p class="help-block">Example block-level help text here.</p> -->
+    </div>
+  </div>
+  <div class="text-center">
+    <button type="submit" class="btn btn-primary">DAFTAR</button>
+  </div>
+  </form>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
 </body>
