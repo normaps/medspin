@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="MEDSPIN FK UNAIR 2015, Olimpiade Kedokteran Untuk Siswa SMA & Sederajat Se-Asia Tenggara Diselenggarakan Oleh FK UNAIR Pada 8, 21, & 22 November 2015"> 
+  <meta name="keywords" content="Login Medspin FK UNAIR, Medspin 2015, Olimpiade Kedokteran, Medspin FK UNAIR 2015">
+  <meta name="author" content="Gemma Adhatien & Norma Puspitasari">
+  <meta charset="UTF-8"> 
+
+  <title>ADMIN MEDSPIN FK UNAIR 2016</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <style type="text/css">
+    *{
+      font-family: 'Open Sans', sans-serif;
+    }
+  </style>
+</head>
+<body style="background:url(http://medspinfkunair.com/pq/images/bg-w.png);">
+
+<nav class="navbar navbar-inverse" style="color:white; background-color:#028fcc; border-color:#028fcc;">
+  <div class="container-fluid">
+    <div class="navbar-header" style="margin:10px;">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span> 
+      </button>
+      <h5>MEDSPIN FK UNAIR 2016</h5>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="admin_dashboard.html" style="color:white;">APPROVE PEMBAYARAN</a></li>
+        <li class="active"><a href="admin_lihatpeserta.html" style="color:white;">LIHAT PESERTA</a></li>
+        <li><a href="#" style="color:white;">KOMPETISI</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+              <li style="margin:10px;">ADMIN</li>
+              <li><a href="#" style="color:white;"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h3>LIHAT PESERTA</h3>
+  </div>
+<div class="row">
+  <form role="form" method="post">
+      <div class="form-group col-md-3">
+        <label for="select_ujian">Kode Peserta:</label>
+        <select class="form-control" id="kode">
+          <option>--All--</option>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+          <option>D</option>          
+        </select>
+      </div>    
+      <div class="form-group col-md-3">
+        <label for="select_lokasi">Lokasi:</label>
+        <select class="form-control" id="lokasi">
+          <option>--All--</option>
+          <option>Jabodetabek</option>
+          <option>Aceh</option>
+          <option>Bali</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="select_ujian">Waktu Registrasi:</label>
+        <select class="form-control" id="kode">
+          <option>--All--</option>
+          <option>Early Reg</option>
+          <option>Non Early Reg</option>         
+        </select>
+      </div>      
+      <div class="col-md-3" style="margin-top:25px;">
+        <button type="submit" class="btn btn-default" style="background-color:#FD2050;color:white;">LIHAT</button>
+    </div>
+  </form>
+</div>
+<div class="row">            
+      <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="thead-default">
+          <tr>
+            <th>Nomor Peserta</th>
+            <th>Nama Ketua</th>
+            <th>Asal SMA</th>
+            <th>Lokasi</th>
+            <th>Ujian</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>B16.00.01.001</td>
+            <td>Norma Puspuspuspus</td>
+            <td>SMA 1 Serang</td>
+            <td>Serang</td>
+            <td>Online</td>
+            <td><button class="btn btn-primary btn-xs" data-toggle='modal' data-target='#myModal'>detail</button></td>
+          </tr>
+          <tr>
+            <td>B16.00.01.001</td>
+            <td>Norma Puspuspuspus</td>
+            <td>SMA 1 Serang</td>
+            <td>Serang</td>
+            <td>Online</td>
+            <td><button class="btn btn-primary btn-xs" data-toggle='modal' data-target='#myModal'>detail</button></td>
+          </tr>          
+        </tbody>
+      </table>
+      </div>
+</div>  
+  <div class="row">    
+  </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:60%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">B16.00.01.001</h4>
+            </div>
+            <div class="modal-body">
+              <div class="col-md-6" style="text-align:left;">
+                <div class="col-md-6">
+                    <b >Nomor Peserta: </b>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align:right" id='nomor_peserta'>B16.00.01.001</p>
+                </div>
+                <div class="col-md-6">
+                    <b>Asal Sekolah: </b>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align:right" id='sekolah'>SMA 1 Serang</p>
+                </div>
+                <div class="col-md-6">
+                    <b>Alamat Sekolah:</b>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align:right" id='alamat'> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi consequat.</p>
+                </div>
+            </div>
+            <div class="col-md-6" style="text-align:left;">
+                <div class="col-md-6">
+                    <b>Lokasi:</b>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align:right" id='lokasi'>Serang</p>
+                </div>
+                <div class="col-md-6">
+                    <b>Metode Ujian</b>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align:right" id='ujian'>Offline</p>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>  
+                   <div class="content table-responsive table-full-width">
+
+                        <table class="table table-hover table-striped">
+                            <thead>
+                               <th>Nama Peserta</th>
+                               <th>NIS</th>
+                               <th>EMAIL</th>
+                               <th>TTL</th>
+                            </thead>
+                            <tbody id='nama_peserta'>
+                              <tr>
+                                <td>Siapa Aja (Ketua)</td>
+                                <td>1234567</td>
+                                <td>siapaaja@yahoo.com</td>
+                                <td>Jakarta, 28 April 1996</td>
+                              </tr>     
+                              <tr>
+                                <td>Siapa Aja</td>
+                                <td>1234567</td>
+                                <td>siapaaja@yahoo.com</td>
+                                <td>Jakarta, 28 April 1996</td>
+                              </tr>                                                        
+                            </tbody>
+                        </table>
+
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        </div>
+                   </div>
+           </div>
+    </div>
+  </div>
+</div>  
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+</body>
+</html>
+
