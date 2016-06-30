@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+    require 'connect.php';
+    $conn = connectDB();
+?>
 <head>
   <meta name="description" content="MEDSPIN FK UNAIR 2015, Olimpiade Kedokteran Untuk Siswa SMA & Sederajat Se-Asia Tenggara Diselenggarakan Oleh FK UNAIR Pada 8, 21, & 22 November 2015"> 
   <meta name="keywords" content="Login Medspin FK UNAIR, Medspin 2015, Olimpiade Kedokteran, Medspin FK UNAIR 2015">
@@ -23,35 +25,39 @@
     <form role="form" method="post" class="col-md-10" style="">
       <div class="form-group">
         <label for="username">Username:</label>
-        <input class="form-control" id="username" placeholder="Masukkan Username" required>
+        <input class="form-control" name="username" placeholder="Masukkan Username" required>
       </div>
       <div class="form-group">
         <label for="pwd">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Masukkan password" required>
+        <input type="password" class="form-control" name="pwd" placeholder="Masukkan password" required>
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+        <input type="email" class="form-control" name="email" placeholder="Enter email" required>
       </div>
       <div class="form-group">
         <label for="phone">Telepon:</label>
-        <input class="form-control" id="phone" placeholder="Nomor telepon yang bisa dihubungi" required>
+        <input class="form-control" name="phone" placeholder="Nomor telepon yang bisa dihubungi" required>
       </div>
       <div class="form-group">
         <label for="sekolah">Nama Sekolah:</label>
-        <input class="form-control" id="sekolah" placeholder="Masukkan nama sekolah Anda" required>
+        <input class="form-control" name="sekolah" placeholder="Masukkan nama sekolah Anda" required>
       </div>
       <div class="form-group">
         <label for="Alamat_sekolah">Alamat Sekolah:</label>
-        <textarea class="form-control" rows="5" id="alamat_sekolah" required></textarea>
+        <textarea class="form-control" rows="5" name="alamat_sekolah" required></textarea>
       </div>
       <div class="form-group">
         <label for="select_lokasi">Lokasi:</label>
-        <select class="form-control" id="lokasi">
-          <option>Bandung</option>
-          <option>Jabodetabek</option>
-          <option>Aceh</option>
-          <option>Bali</option>
+        <select class="form-control" name="lokasi[]">
+          <option value='all'>Pilih Lokasi</option>
+          <?php
+            $sql2 = "SELECT nama FROM wilayah";
+            $result2 = mysqli_query ($conn, $sql2);
+            while($row = mysqli_fetch_assoc($result2)){
+              echo '<option value="'.$row['nama'].'">'.$row['nama'].'</option>';
+            }
+          ?>
         </select>
       </div>
       <div class="radio">
@@ -64,6 +70,56 @@
         <button type="submit" class="btn btn-primary">DAFTAR</button>
       </div>
     </form>
+  <?php 
+    if(isset($_POST['username'])){
+        $username = $_POST['username'];
+        $password = $_POST['pwd'];
+        $email = $_POST['email'];
+        $telepon = $_POST['phone'];
+        $sekolah = $_POST['sekolah'];
+        $alamat_sekolah = $_POST['alamat_sekolah'];
+        $select = $_POST['lokasi'];
+        if ($select){
+          foreach ($select as $u){
+            if($u == 'all') {
+              echo 
+              "<div class='alert alert-warning col-md-10' style='text-align: center; margin-top:10px;'>
+                <strong>Warning!</strong> Mohon pilih lokasi
+              </div>";
+            } else {
+              $lokasi = $u;
+            }
+          }
+        }
+        $sqlname = "SELECT username FROM user WHERE username='$username'";
+        $resultname = mysqli_query($conn, $sqlname) or die(mysqli_error($conn));
+        if(mysqli_num_rows($resultname) < 1){
+          $sql = "INSERT INTO USER (user_id,email,username,password,registered_at,isadmin) VALUES ('','$email','$username','$password',current_timestamp,'')";
+          $sqlid = "SELECT user_id FROM USER WHERE email = '$email'";
+          $resultid = $conn->query($sqlid);
+          $rowid = $resultid->fetch_assoc();
+          $user_id = $rowid['user_id'];
+          $sqllokasi = "SELECT id FROM WILAYAH WHERE nama = '$lokasi'";
+          $resultlokasi = $conn->query($sqllokasi);
+          $rowlokasi = $resultlokasi->fetch_assoc();
+          $lokasi_id = $rowlokasi['id'];
+          $sqlteam = "INSERT INTO TEAM (team_id,nomor_peserta,telepon,lokasi_id,sekolah,alamat_sekolah,isbayar) VALUES ($user_id,'','$telepon',$lokasi_id,'$sekolah','$alamat_sekolah','')";
+          if ($conn->query($sql) === TRUE && $conn->query($sqlteam) === TRUE) {
+              $conn->close();
+              session_start();
+              $_SESSION["userlogin"] = $_POST["username"];
+              header("Location: signup_completion.php");
+          } else {
+              echo "Error: " . $sql . "<br>" . $conn->error;
+          }
+        } else {
+          echo "<div class='alert alert-warning col-md-10' style='text-align: center; margin-top:10px;'>
+                <strong>Warning!</strong> Username already exists
+              </div>";
+          $conn->close();
+        }  
+      }
+  ?>
   </div>
   <div class='col-md-6' id="panduan">
       <div class="panel panel-default">
@@ -85,5 +141,3 @@
   </div>
 </div>
 </body>
-</html>
-
