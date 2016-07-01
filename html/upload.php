@@ -67,7 +67,7 @@
     }
     require 'password.php';
     $password = encrypt('$password');
-    $sqluser = "INSERT INTO USER (username,password,isAdmin) VALUES ('$username','$hash','')";
+    $sqluser = "INSERT INTO USER (username,password,isAdmin) VALUES ('$username','$password','')";
     if ($conn->query($sqluser) === FALSE) {
       echo "Error: " . $sqluser . "<br>" . $conn->error;
     }
