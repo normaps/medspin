@@ -132,7 +132,11 @@
         <b>Metode Ujian:</b>
     </div>
     <div class="col-md-6">
-        <p style="text-align:right" id='ujian'><?php echo $metode;?> <a>cetak form</a></p>
+        <?php
+          //link to download pdf files
+          $link_form = 'form/'.$nomor_peserta.'.pdf';
+        ?>
+        <p style="text-align:right" id='ujian'><?php echo $metode;?> <a href=<?php echo $link_form?>>cetak form</a></p>
     </div>
     <div class="col-md-6">
         <b>Lokasi:</b>
