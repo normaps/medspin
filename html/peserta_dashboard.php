@@ -17,13 +17,13 @@
   $sql = "SELECT DISTINCT * FROM team WHERE username='$nomor_peserta'";
   $result = mysqli_query($conn,$sql) or die (mysqli_error($conn));
 
-  $telepon = $asal_sekolah = $alamat = $lokasi_id = $metode = "";
+  $email = $asal_sekolah = $alamat = $lokasi_id = $metode = "";
 
   if ($result->num_rows > 0) { 
     //di fetch, ambil satu satu
     while ($datatim=mysqli_fetch_row($result))
     {
-      $telepon = $datatim[0];
+      $email = $datatim[0];
       $asal_sekolah = $datatim[3];
       $alamat = $datatim[4];
       $lokasi_id = $datatim[2]; //masih berbentuk nomor
@@ -115,25 +115,31 @@
         <p style="text-align:right" id='alamat'><?php echo $alamat;?></p>
     </div>
     <div class="col-md-6">
-        <b>Lokasi:</b>
+        <b>Kota Asal/Provinsi:</b>
     </div>
     <div class="col-md-6">
-        <p style="text-align:right" id='lokasi'><?php echo $lokasi;?></p>
+        <p style="text-align:right" id='asal_provinsi'>Bandung, Jawa Barat</p>
     </div>    
 </div>
 <div class="col-md-6" style="text-align:left;">
     <div class="col-md-6">
-        <b>Telepon:</b>
+        <b>Email:</b>
     </div>
     <div class="col-md-6">
-        <p style="text-align:right" id='telepon'><?php echo $telepon;?></p>
-    </div>
+        <p style="text-align:right" id='email'><?php echo $email;?></p>
+    </div>  
     <div class="col-md-6">
-        <b>Metode Ujian</b>
+        <b>Metode Ujian:</b>
     </div>
     <div class="col-md-6">
         <p style="text-align:right" id='ujian'><?php echo $metode;?> <a>cetak form</a></p>
     </div>
+    <div class="col-md-6">
+        <b>Lokasi:</b>
+    </div>
+    <div class="col-md-6">
+        <p style="text-align:right" id='lokasi'><?php echo $lokasi;?></p>
+    </div>     
     <div class="col-md-6">
         <button class="btn btn-primary">Ubah Password</button>
     </div>
@@ -152,7 +158,7 @@
           $email = $dataEmail[0];
 
           //ambil data member tim yang sedang login
-          $sqlMember = "SELECT * FROM member WHERE email='$email'";
+          $sqlMember = "SELECT * FROM member WHERE email='$email'"; 
           $resultMember = mysqli_query($conn,$sqlMember) or die (mysqli_error($conn));
 
           $nama = $nis = $ttl = "";
@@ -179,7 +185,7 @@
                     <div class="text-left">
                       <div><b>NIS:</b></div>
                       <div>'.$nis.'</div>
-                      <div><b>Email:</b></div>
+                      <div><b>NO HP:</b></div>
                       <div>'.$email.'</div>
                       <div><b>TTL:</b></div>
                       <div>'.$ttl.'</div>
