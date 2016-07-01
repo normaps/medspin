@@ -1,52 +1,47 @@
 <?php
-  // session_start();
-  if(isset($_SESSION["username"])){
-    if ($_SESSION['isAdmin']==1) {
-      // header("Location: admin_dashboard.html");
+  session_start();
+  if(isset($_SESSION["userlogin"])){
+    if ($_SESSION["isAdmin"]==false){
+     header("Location: peserta_dashboard.php");
     } else {
-      // header("Location: $peserta_dashboard.html");
+      header("Location: admin_dashboard.php");
     }
   }
-include 'connect.php';
-
-
-if(!empty($_POST)){   
-    $username = $_POST['username'];
-    $password = $_POST['password'];
- 
-    $sql = "select * from user where username='".$username."' and password='".$password."'";
-    #echo $sql."<br />";
-    $query = mysql_query($sql) or die (mysql_error());
- 
-    // pengecekan query valid atau tidak
-    if($query){
-        $row = mysql_num_rows($query);
-         
-        // jika $row > 0 atau username dan password ditemukan
-        if($row > 0){
-            session_start();
-            $_SESSION['isLoggedIn']=1;
-            $_SESSION['username']=$username;
-            // $_SESSION['level']=$test;
-
-            while($dataUser = $query->fetch_assoc()) {
-                if ($dataUser["isAdmin"]==1) {
-                      $_SESSION['isAdmin']=1;
-                  // header("Location: admin_dashboard.html");
-                } else {
-                    $_SESSION['isAdmin']=0;
-                  // header("Location: $peserta_dashboard.html");
-                }
-            }
-        }else{
-            
-            echo "<div style='color:red;'><script> alert('*Username Atau Password Anda Salah !!!');</script></div>";
-        }
-
-    }
-}
 ?>
+<!--References : http://scele.cs.ui.ac.id/mod/resource/view.php?id=74239-->
+<?php
+  $resp = "";
 
+  if(isset($_POST["username"])){
+    require 'connect.php';
+    $conn = connectDB();
+
+    $user = $_POST["username"];
+    $pass = $_POST["password"];
+
+    $sql = "SELECT * FROM user WHERE username='$user' AND password='$pass'";
+    $result = mysqli_query($conn,$sql) or die (mysqli_error($conn));
+
+    if ($result->num_rows > 0) { //jika username dan password sesuai yang ada pada database
+      session_start();
+      $_SESSION["userlogin"] = $_POST["username"];
+      while ($dataUser=mysqli_fetch_row($result))
+      {
+         if ($dataUser[2]==1) {
+          $_SESSION["isAdmin"] = true;
+          header('Location: admin_dashboard.php');          
+         } else {
+          $_SESSION["isAdmin"] = false;
+          header('Location: peserta_dashboard.php');
+         }
+      }      
+    } else { //jika username tidak ada pada database
+      $resp = "invalid username or password";
+    } 
+
+  }
+
+?>
 
 <html>
 <head>
@@ -103,6 +98,7 @@ if(!empty($_POST)){
 
 
 </div>
+<p align="right"><font color="#red"><?php echo $resp;?></font></p>
 <p align="right"><font color="#0000ff"><a href="http://medspinfkunair.com/registration/lupa_pasword.php" target="_blank">Lupa password ?</a></font></p>
 <p><font color="#0000ff"></font></p>
 
@@ -138,3 +134,4 @@ if(!empty($_POST)){
 
 </body>
 </html>
+
