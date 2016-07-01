@@ -155,7 +155,7 @@
                 <select class="form-control" name="lokasi[]" id="lokasi">
                   <option value='all'>Pilih Lokasi</option>
                   <?php
-                    $sql2 = "SELECT nama FROM wilayah";
+                    $sql2 = "SELECT DISTINCT nama FROM wilayah";
                     $result2 = mysqli_query ($conn, $sql2);
                     while($row = mysqli_fetch_assoc($result2)){
                       if ($row['nama'] != 'Surabaya Humas') {
