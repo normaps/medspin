@@ -78,7 +78,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="peserta_dashboard.html" style="color:white;">TIM</a></li>
+        <li class="active"><a href="peserta_dashboard.php" style="color:white;">TIM</a></li>
         <li><a href="#" style="color:white;">INFO LOMBA</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
