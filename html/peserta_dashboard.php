@@ -187,8 +187,6 @@
                       <div>'.$nis.'</div>
                       <div><b>NO HP:</b></div>
                       <div>'.$email.'</div>
-                      <div><b>TTL:</b></div>
-                      <div>'.$ttl.'</div>
                     </div>
                     </div>';
             }
