@@ -27,209 +27,285 @@
 <div clas="row" style=" font-size:20; font-weight:700; color:white;  background-color:#028fcc; padding:20px 50px; top:0; left:0; right:0; text-align:center;">
   <h2>PENDAFTARAN ONLINE MEDSPIN 2016</h2>
 </div>
-<div class="row" style="margin:0 auto; padding:20px;">
-  <form role="form" method="post" class="col-md-10" style="">
-  <div class='col-md-6' id="sign_up_form">
-    <div class="form-group">
-      <label for="sekolah">Asal Sekolah:</label>
-      <input class="form-control" name="sekolah" placeholder="Masukkan nama sekolah Anda" required>
-    </div>
-    <div class="form-group">
-      <label for="Alamat_sekolah">Alamat Sekolah:</label>
-      <textarea class="form-control" rows="5" name="alamat_sekolah" required></textarea>
-    </div>
-    <div class="form-group">
-      <label for="select_lokasi">Lokasi:</label>
-      <select class="form-control" name="lokasi[]">
-        <option value='all'>Pilih Lokasi</option>
-        <?php
-          $sql2 = "SELECT nama FROM wilayah";
-          $result2 = mysqli_query ($conn, $sql2);
-          while($row = mysqli_fetch_assoc($result2)){
-            echo '<option value="'.$row['nama'].'">'.$row['nama'].'</option>';
+
+  <div class="row" style="margin:0 auto; padding:20px;">
+    <form role="form" method="post" class="col-sm-offset-2" style="">
+      <div class='col-sm-6 col-sm-offset-2' id="sign_up_form">
+        <div class="form-group">
+          <label for="sekolah">Asal Sekolah:</label>
+          <input class="form-control" name="sekolah" placeholder="Masukkan nama sekolah Anda" required>
+        </div>
+        <div class="form-group">
+          <label for="Alamat_sekolah">Alamat Sekolah:</label>
+          <textarea class="form-control" rows="5" name="alamat_sekolah" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="select_lokasi">Lokasi:</label>
+          <select class="form-control" name="lokasi[]" id="lokasi">
+            <option value='all'>Pilih Lokasi</option>
+            <?php
+              $sql2 = "SELECT nama FROM wilayah";
+              $result2 = mysqli_query ($conn, $sql2);
+              while($row = mysqli_fetch_assoc($result2)){
+                echo '<option value="'.$row['nama'].'">'.$row['nama'].'</option>';
+              }
+            ?>
+          </select>
+        </div>
+        <div id="update"></div>
+        <script>
+          function loadMorePost(){
+            $('#update').html("");
+            $.ajax({
+            url: "api-panwil.php", 
+            method: "GET",
+            data: {'lokasi': $('#lokasi').val()},
+            dataType: "json",
+            }).done(function(data){
+              if (data[0] == true)
+                $('#update').append(
+                  $('<div class="radio">' +
+                      '<label>'+ '<input type="radio" name="metode_ujian" value="offline_panwil" required>' + 'Ujian offline</label>' +
+                    '</div>' +
+                    '<div class="radio">' +
+                      '<label>'+'<input type="radio" name="metode_ujian" value="online_panwil" required>'+'Ujian online</label>' +
+                    '</div>')
+                );
+              else
+                $('#update').append(
+                  $('<div class="radio">' +
+                      '<label>'+ '<input type="radio" name="metode_ujian" value="offline" disabled>' + 'Ujian offline tidak tersedia</label>' +
+                    '</div>' +
+                    '<div class="radio">' +
+                      '<label>'+'<input type="radio" name="metode_ujian" value="online" required>'+'Ujian online</label>' +
+                    '</div>')
+                );
+            }).fail(function(){
+              alert('error');
+            });
           }
-        ?>
-      </select>
+        $(document).ready(function(){
+          $('#lokasi').on('change', loadMorePost);
+        });
+        </script>
+        <div class="form-group">
+          <label for="phone">Telepon:</label>
+          <input class="form-control" name="phone" placeholder="Nomor telepon yang bisa dihubungi" required>
+        </div>    
+      </div>
+    <div style="clear:both;" id="data_peserta">
+        <div class="row">
+          <div class="card col-md-3" style="margin: 10px;">
+            <div class="card-header" style=" text-align:center;">
+              <h4 class="card-title">Peserta #1</h4>
+              <h6 class="card-subtitle text-muted">Ketua</h6>
+            </div>
+            <div class="card-block">
+              <div class="form-group">
+                <label for="nama">Nama Lengkap:</label>
+                <input class="form-control" name="nama1" placeholder="Masukkan Nama Lengkap Peserta #1" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email1" placeholder="Masukkan Email Peserta #1" required>
+              </div>
+              <div class="form-group">
+                <label for="ttl">Tempat, Tanggal Lahir:</label>
+                <input class="form-control" name="ttl1" placeholder="Jakarta, 1 Januari 1999" required>
+              </div>
+              <div class="form-group">
+                <label for="nis">NIS:</label>
+                <input class="form-control" name="nis1" placeholder="Masukkan NIS Peserta #1" required>
+              </div>
+              <div class="form-group">
+                <label for="uploadFoto">Pas Foto</label>
+                <input type="file" name="uploadFoto1" required>
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+              </div>
+              <div class="form-group">
+                <label for="uploadKartu">Kartu NIS</label>
+                <input type="file" name="uploadNIS1" required>
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="card col-md-3" style="margin: 10px;">
+            <div class="card-header" style="text-align:center;">
+              <h4 class="card-title">Peserta #2</h4>
+              <h6 class="card-subtitle text-muted">Anggota</h6>
+            </div>
+            <div class="card-block">
+              <div class="form-group">
+                <label for="nama">Nama Lengkap:</label>
+                <input class="form-control" name="nama2" placeholder="Masukkan Nama Lengkap Peserta #2" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email2" placeholder="Masukkan Email Peserta #2" required>
+              </div>
+              <div class="form-group">
+                <label for="ttl">Tempat, Tanggal Lahir:</label>
+                <input class="form-control" name="ttl2" placeholder="Jakarta, 1 Januari 1999" required>
+              </div>
+              <div class="form-group">
+                <label for="nis">NIS:</label>
+                <input class="form-control" name="nis2" placeholder="Masukkan NIS Peserta #2" required>
+              </div>
+              <div class="form-group">
+                <label for="uploadFoto">Pas Foto</label>
+                <input type="file" name="uploadFoto2" required>
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+              </div>
+              <div class="form-group">
+                <label for="uploadKartu">Kartu NIS</label>
+                <input type="file" name="uploadNIS2" required>
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="card col-md-3" style="margin: 10px;">
+            <div class="card-header" style="text-align:center;">
+              <h4 class="card-title">Peserta #3</h4>
+              <h6 class="card-subtitle text-muted">Anggota</h6>
+            </div>
+            <div class="card-block">
+              <div class="form-group">
+                <label for="nama">Nama Lengkap:</label>
+                <input class="form-control" name="nama3" placeholder="Masukkan Nama Lengkap Peserta #3" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email3" placeholder="Masukkan Email Peserta #3" required>
+              </div>
+              <div class="form-group">
+                <label for="ttl">Tempat, Tanggal Lahir:</label>
+                <input class="form-control" name="ttl3" placeholder="Jakarta, 1 Januari 1999" required>
+              </div>
+              <div class="form-group">
+                <label for="nis">NIS:</label>
+                <input class="form-control" name="nis3" placeholder="Masukkan NIS Peserta #3" required>
+              </div>
+              <div class="form-group">
+                <label for="uploadFoto">Pas Foto</label>
+                <input type="file" name="uploadFoto3" required>
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+              </div>
+              <div class="form-group">
+                <label for="uploadKartu">Kartu NIS</label>
+                <input type="file" name="uploadNIS3" required>
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
-    <div class="radio">
-      <label><input type="radio" name="metode_ujian" required>Ujian offline</label>
+    <div class="row" id="bukti_bayar">
+      <div class="form-group">
+        <label for="uploadBayar">Upload Bukti Pembayaran</label>
+        <input type="file" name="uploadBayar" required>
+        <!-- <p class="help-block">Example block-level help text here.</p> -->
+      </div>
     </div>
-    <div class="radio">
-      <label><input type="radio" name="metode_ujian">Ujian online</label>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">DAFTAR</button>
     </div>
-    <div class="form-group">
-      <label for="phone">Telepon:</label>
-      <input class="form-control" name="phone" placeholder="Nomor telepon yang bisa dihubungi" required>
-    </div>    
-  <?php 
-    if(isset($_POST['username'])){
-        $username = $_POST['username'];
-        $password = $_POST['pwd'];
-        $email = $_POST['email'];
-        $telepon = $_POST['phone'];
-        $sekolah = $_POST['sekolah'];
-        $alamat_sekolah = $_POST['alamat_sekolah'];
-        $select = $_POST['lokasi'];
-        if ($select){
-          foreach ($select as $u){
-            if($u == 'all') {
-              echo 
-              "<div class='alert alert-warning col-md-10' style='text-align: center; margin-top:10px;'>
-                <strong>Warning!</strong> Mohon pilih lokasi
-              </div>";
-            } else {
-              $lokasi = $u;
-            }
+    </form>
+  </div>
+<?php 
+  if(isset($_POST['sekolah'])){
+      $telepon = $_POST['phone'];
+      $sekolah = $_POST['sekolah'];
+      $alamat_sekolah = $_POST['alamat_sekolah'];
+      $metode = $_POST['metode_ujian'];
+      $select = $_POST['lokasi'];
+      if ($select){
+        foreach ($select as $u){
+          if($u == 'all') {
+            echo 
+            "<div class='alert alert-warning col-md-10' style='text-align: center; margin-top:10px;'>
+              <strong>Warning!</strong> Mohon pilih lokasi
+            </div>";
+          } else {
+            $lokasi = $u;
           }
         }
-        $sqlname = "SELECT username FROM user WHERE username='$username'";
-        $resultname = mysqli_query($conn, $sqlname) or die(mysqli_error($conn));
-        if(mysqli_num_rows($resultname) < 1){
-          $sql = "INSERT INTO USER (user_id,email,username,password,registered_at,isadmin) VALUES ('','$email','$username','$password',current_timestamp,'')";
-          $sqlid = "SELECT user_id FROM USER WHERE email = '$email'";
-          $resultid = $conn->query($sqlid);
-          $rowid = $resultid->fetch_assoc();
-          $user_id = $rowid['user_id'];
-          $sqllokasi = "SELECT id FROM WILAYAH WHERE nama = '$lokasi'";
-          $resultlokasi = $conn->query($sqllokasi);
-          $rowlokasi = $resultlokasi->fetch_assoc();
-          $lokasi_id = $rowlokasi['id'];
-          $sqlteam = "INSERT INTO TEAM (team_id,nomor_peserta,telepon,lokasi_id,sekolah,alamat_sekolah,isbayar) VALUES ($user_id,'','$telepon',$lokasi_id,'$sekolah','$alamat_sekolah','')";
-          if ($conn->query($sql) === TRUE && $conn->query($sqlteam) === TRUE) {
-              $conn->close();
-              session_start();
-              $_SESSION["userlogin"] = $_POST["username"];
-              header("Location: signup_completion.php");
-          } else {
-              echo "Error: " . $sql . "<br>" . $conn->error;
-          }
-        } else {
-          echo "<div class='alert alert-warning col-md-10' style='text-align: center; margin-top:10px;'>
-                <strong>Warning!</strong> Username already exists
-              </div>";
-          $conn->close();
-        }  
       }
-  ?>
-  </div>
-  <div style="clear:both;" id="data_peserta">
-      <div class="row">
-        <div class="card col-md-3" style="margin: 10px;">
-          <div class="card-header" style=" text-align:center;">
-            <h4 class="card-title">Peserta #1</h4>
-            <h6 class="card-subtitle text-muted">Ketua</h6>
-          </div>
-          <div class="card-block">
-            <div class="form-group">
-              <label for="nama">Nama Lengkap:</label>
-              <input class="form-control" id="nama" placeholder="Masukkan Nama Lengkap Peserta #1" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" class="form-control" id="email" placeholder="Masukkan Email Peserta #1" required>
-            </div>
-            <div class="form-group">
-              <label for="ttl">Tempat, Tanggal Lahir:</label>
-              <input class="form-control" id="ttl" placeholder="Jakarta, 1 Januari 1999" required>
-            </div>
-            <div class="form-group">
-              <label for="nis">NIS:</label>
-              <input class="form-control" id="nis" placeholder="Masukkan NIS Peserta #1" required>
-            </div>
-            <div class="form-group">
-              <label for="uploadFoto">Pas Foto</label>
-              <input type="file" name="uploadFoto" required>
-              <!-- <p class="help-block">Example block-level help text here.</p> -->
-            </div>
-            <div class="form-group">
-              <label for="uploadKartu">Kartu NIS</label>
-              <input type="file" name="uploadNIS" required>
-              <!-- <p class="help-block">Example block-level help text here.</p> -->
-            </div>
-          </div>
-        </div>
-        <div class="card col-md-3" style="margin: 10px;">
-          <div class="card-header" style="text-align:center;">
-            <h4 class="card-title">Peserta #2</h4>
-            <h6 class="card-subtitle text-muted">Anggota</h6>
-          </div>
-          <div class="card-block">
-            <div class="form-group">
-              <label for="nama">Nama Lengkap:</label>
-              <input class="form-control" id="nama" placeholder="Masukkan Nama Lengkap Peserta #2" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" class="form-control" id="email" placeholder="Masukkan Email Peserta #2" required>
-            </div>
-            <div class="form-group">
-              <label for="ttl">Tempat, Tanggal Lahir:</label>
-              <input class="form-control" id="ttl" placeholder="Jakarta, 1 Januari 1999" required>
-            </div>
-            <div class="form-group">
-              <label for="nis">NIS:</label>
-              <input class="form-control" id="nis" placeholder="Masukkan NIS Peserta #2" required>
-            </div>
-            <div class="form-group">
-              <label for="uploadFoto">Pas Foto</label>
-              <input type="file" name="uploadFoto" required>
-              <!-- <p class="help-block">Example block-level help text here.</p> -->
-            </div>
-            <div class="form-group">
-              <label for="uploadKartu">Kartu NIS</label>
-              <input type="file" name="uploadNIS" required>
-              <!-- <p class="help-block">Example block-level help text here.</p> -->
-            </div>
-          </div>
-        </div>
-        <div class="card col-md-3" style="margin: 10px;">
-          <div class="card-header" style="text-align:center;">
-            <h4 class="card-title">Peserta #3</h4>
-            <h6 class="card-subtitle text-muted">Anggota</h6>
-          </div>
-          <div class="card-block">
-            <div class="form-group">
-              <label for="nama">Nama Lengkap:</label>
-              <input class="form-control" id="nama" placeholder="Masukkan Nama Lengkap Peserta #3" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" class="form-control" id="email" placeholder="Masukkan Email Peserta #3" required>
-            </div>
-            <div class="form-group">
-              <label for="ttl">Tempat, Tanggal Lahir:</label>
-              <input class="form-control" id="ttl" placeholder="Jakarta, 1 Januari 1999" required>
-            </div>
-            <div class="form-group">
-              <label for="nis">NIS:</label>
-              <input class="form-control" id="nis" placeholder="Masukkan NIS Peserta #3" required>
-            </div>
-            <div class="form-group">
-              <label for="uploadFoto">Pas Foto</label>
-              <input type="file" name="uploadFoto" required>
-              <!-- <p class="help-block">Example block-level help text here.</p> -->
-            </div>
-            <div class="form-group">
-              <label for="uploadKartu">Kartu NIS</label>
-              <input type="file" name="uploadNIS" required>
-              <!-- <p class="help-block">Example block-level help text here.</p> -->
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-  <div class="row" id="bukti_bayar">
-    <div class="form-group">
-      <label for="uploadBayar">Upload Bukti Pembayaran</label>
-      <input type="file" name="uploadBayar" required>
-      <!-- <p class="help-block">Example block-level help text here.</p> -->
-    </div>
-  </div>
-  <div class="text-center">
-    <button type="submit" class="btn btn-primary">DAFTAR</button>
-  </div>
-  </form>
-</div>
+      $sqllokasi = "SELECT id FROM WILAYAH WHERE nama = '$lokasi'";
+      $resultlokasi = $conn->query($sqllokasi);
+      $rowlokasi = $resultlokasi->fetch_assoc();
+      $lokasi_id = $rowlokasi['id'];
+
+      $totalmember = 3;
+      $emailketua = '';
+      $username = '';
+      $sqlcurrent = "SELECT current_no, kode FROM WILAYAH WHERE id = '$lokasi_id'";
+      $resultcurrent = $conn->query($sqlcurrent);
+      $rowcurrent = $resultcurrent->fetch_assoc();
+      $current_no = $rowcurrent['current_no'];
+      $kode = $rowcurrent['kode'];
+      $nomor = '';
+      $current_no++;
+      $sql4 = "UPDATE WILAYAH SET current_no = $current_no WHERE id = '$lokasi_id'";
+      if ($conn->query($sql4) === FALSE) {
+        echo "Error: " . $sql4 . "<br>" . $conn->error;
+      }
+      if ($current_no > 99) {
+        $nomor = $current_no;
+      } else if ($current_no > 9) {
+        $nomor = '0'.$current_no;
+      } else {
+        $nomor = '00'.$current_no;
+      }
+      if (current_timestamp < '2016-08-02') {
+        if ($metode == 'offline_panwil') {
+          $username = 'B1600'.$kode.$nomor;
+        } else if ($metode == 'online_panwil') {
+           $username = 'C1600'.$kode.$nomor;
+        } else {
+           $username = 'D1600'.$kode.$nomor;
+        }
+      } else {
+        if ($metode == 'offline_panwil') {
+          $username = 'B1601'.$kode.$nomor;
+        } else if ($metode == 'online_panwil') {
+           $username = 'C1601'.$kode.$nomor;
+        } else {
+           $username = 'D1601'.$kode.$nomor;
+        }
+      }
+      //TESTING BLM PASSWORD BENER
+      $password = 'password';
+      $sqluser = "INSERT INTO (username,password,isAdmin) VALUES ('$username','$password','')";
+      if ($conn->query($sqluser) === FALSE) {
+        echo "Error: " . $sqluser . "<br>" . $conn->error;
+      }
+      for ($i = 1; $i <= $totalmember; $i++) {
+        $ketua = false;
+        $nama = $_POST['nama'.$i.''];
+        $email = $_POST['email'.$i.''];
+        $ttl = $_POST['ttl'.$i.''];
+        $nis = $_POST['nis'.$i.''];
+        //$uploadfoto = $_FILES['uploadFoto'.$i.'']['name'];
+        //$uploadNIS = $_FILES['uploadNIS'.$i.'']['name'];
+        if ($i == 1) {
+          $ketua = true;
+          $emailketua = $email;
+        }
+        $sqlteam = "INSERT INTO TEAM (telepon,metode,lokasi_id,sekolah,alamat_sekolah,registered_at,username,email) VALUES ('$telepon','$metode',$lokasi_id,'$sekolah','$alamat_sekolah',current_timestamp,'$username','$email')";
+        $sqlmember = "INSERT INTO MEMBER (nama,nis,ttl,email,isketua) VALUES ('$nama','$nis','$ttl','$email','$ketua')";
+        if ($conn->query($sqlteam) === FALSE) {
+          echo "Error: " . $sqlteam . "<br>" . $conn->error;
+        }
+        if ($conn->query($sqlmember) === FALSE) {
+          echo "Error: " . $sqlmember . "<br>" . $conn->error;
+        }
+      }
+      $conn->close();
+      //session_start();
+      //$_SESSION["teamlogin"] = $emailketua;
+      //header("Location: payment.php");
+    }
+?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
