@@ -66,7 +66,7 @@
       $password .= $chars[mt_rand(0, strlen($chars) - 1)];
     }
     require 'password.php';
-    $password = encrypt('$password');
+    $password = encrypt($password);
     $sqluser = "INSERT INTO USER (username,password,isAdmin) VALUES ('$username','$password','')";
     if ($conn->query($sqluser) === FALSE) {
       echo "Error: " . $sqluser . "<br>" . $conn->error;
