@@ -45,12 +45,12 @@
 
 <html>
 <head>
-<meta name="description" content="MEDSPIN FK UNAIR 2015, Olimpiade Kedokteran Untuk Siswa SMA & Sederajat Se-Asia Tenggara Diselenggarakan Oleh FK UNAIR Pada 8, 21, & 22 November 2015">
-<meta name="keywords" content="Login Medspin FK UNAIR, Medspin 2015, Olimpiade Kedokteran, Medspin FK UNAIR 2015">
-<meta name="author" content="Ega Candra Fauriza">
+<meta name="description" content="MEDSPIN FK UNAIR 2016, Olimpiade Kedokteran Untuk Siswa SMA & Sederajat Se-Asia Tenggara Diselenggarakan Oleh FK UNAIR Pada 8, 21, & 22 November 2015">
+<meta name="keywords" content="Login Medspin FK UNAIR, Medspin 2016, Olimpiade Kedokteran, Medspin FK UNAIR 2016">
+<meta name="author" content="Gemma Adhatien & Norma Puspitasari">
 <meta charset="UTF-8"> 
 
-<title>Pendaftaran Medspin FK UNAIR 2015</title>
+<title>LOGIN Medspin FK UNAIR 2016</title>
   <link href="css/ecf.min.css" rel="stylesheet">
   <link href="css/animate.min.css" rel="stylesheet"> 
   <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -59,16 +59,12 @@
   <link id="css-preset" href="css/preset.css" rel="stylesheet">
   <link href="css/responsive.css" rel="stylesheet">
 
-<meta name="description" content="MEDSPIN FK UNAIR 2015, Olimpiade Kedokteran Untuk Siswa SMA & Sederajat Se-Asia Tenggara Diselenggarakan Oleh FK UNAIR Pada 8, 21, & 22 November 2015">
-<meta name="keywords" content="Medspin FK UNAIR, Medspin 2015, Olimpiade Kedokteran, Medspin FK UNAIR 2015">
-<meta name="author" content="Ega Candra Fauriza">
-<meta charset="UTF-8"> 
 </head>
 
 
 <body style="background:url(http://medspinfkunair.com/pq/images/bg-w.png);">
 
- <div style=" font-size:20; font-weight:700; color:white;  background-color:#028fcc; opacity:0.9; padding:20px 50px; position:absolute; top:0; left:0; right:0; text-align:center;">PENDAFTARAN ONLINE MEDSPIN 2015</div>
+ <div style=" font-size:20; font-weight:700; color:white;  background-color:#028fcc; opacity:0.9; padding:20px 50px; position:absolute; top:0; left:0; right:0; text-align:center;">LOG IN MEDSPIN FK UNAIR 2016</div>
 
 <div style="margin:148px  auto; text-align:center; padding:30; border:1px solid #ccc; width:350px; border-radius:10px; background:#fff;">
 <form method="post">
@@ -124,7 +120,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-6" style="color:#fff">
-            <p>&copy;  Medspin 2015 Web Developer Team</p>
+            <p>&copy;  Newbeez</p>
           </div>
         </div>
       </div>
