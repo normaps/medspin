@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
     require 'connect.php';
     $conn = connectDB();
@@ -27,9 +28,10 @@
 <div clas="row" style=" font-size:20; font-weight:700; color:white;  background-color:#028fcc; padding:20px 50px; top:0; left:0; right:0; text-align:center;">
   <h2>PENDAFTARAN ONLINE MEDSPIN 2016</h2>
 </div>
-
   <div class="row" style="margin:0 auto; padding:20px;">
-    <form role="form" method="post" class="col-sm-offset-2" style="">
+    <?php
+    echo '<form role="form" method="post" action="upload.php" class="col-sm-offset-2" style="" enctype="multipart/form-data">';
+    ?>
       <div class='col-sm-6 col-sm-offset-2' id="sign_up_form">
         <div class="form-group">
           <label for="sekolah">Asal Sekolah:</label>
@@ -47,12 +49,29 @@
               $sql2 = "SELECT nama FROM wilayah";
               $result2 = mysqli_query ($conn, $sql2);
               while($row = mysqli_fetch_assoc($result2)){
-                echo '<option value="'.$row['nama'].'">'.$row['nama'].'</option>';
+                if ($row['nama'] != 'Surabaya Humas') {
+                  echo '<option value="'.$row['nama'].'">'.$row['nama'].'</option>';
+                }
               }
             ?>
           </select>
         </div>
-        <div id="update"></div>
+        <div id="panwil">
+          <div class="radio">
+            <label><input type="radio" name="metode_ujian" value="offline_panwil" required>Ujian offline</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="metode_ujian" value="online_panwil" required>Ujian online</label>
+          </div>
+        </div>
+        <div id="nonpanwil" onload>
+          <div class="radio">
+            <label><input type="radio" name="metode_ujian" value="offline" required>Ujian offline tidak tersedia</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="metode_ujian" value="online" required>Ujian online</label>
+          </div>
+        </div>
         <script>
           function loadMorePost(){
             $('#update').html("");
@@ -63,28 +82,16 @@
             dataType: "json",
             }).done(function(data){
               if (data[0] == true)
-                $('#update').append(
-                  $('<div class="radio">' +
-                      '<label>'+ '<input type="radio" name="metode_ujian" value="offline_panwil" required>' + 'Ujian offline</label>' +
-                    '</div>' +
-                    '<div class="radio">' +
-                      '<label>'+'<input type="radio" name="metode_ujian" value="online_panwil" required>'+'Ujian online</label>' +
-                    '</div>')
-                );
+                $('#nonpanwil').hide();
               else
-                $('#update').append(
-                  $('<div class="radio">' +
-                      '<label>'+ '<input type="radio" name="metode_ujian" value="offline" disabled>' + 'Ujian offline tidak tersedia</label>' +
-                    '</div>' +
-                    '<div class="radio">' +
-                      '<label>'+'<input type="radio" name="metode_ujian" value="online" required>'+'Ujian online</label>' +
-                    '</div>')
-                );
+                $('#panwil').hide();
+                $('#nonpanwil').show();
             }).fail(function(){
               alert('error');
             });
           }
         $(document).ready(function(){
+          $('#nonpanwil').hide();
           $('#lokasi').on('change', loadMorePost);
         });
         </script>
@@ -119,12 +126,12 @@
               </div>
               <div class="form-group">
                 <label for="uploadFoto">Pas Foto</label>
-                <input type="file" name="uploadFoto1" required>
+                <input type="file" name="uploadFoto[]" required>
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
               </div>
               <div class="form-group">
                 <label for="uploadKartu">Kartu NIS</label>
-                <input type="file" name="uploadNIS1" required>
+                <input type="file" name="uploadNIS[]" required>
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
               </div>
             </div>
@@ -153,12 +160,12 @@
               </div>
               <div class="form-group">
                 <label for="uploadFoto">Pas Foto</label>
-                <input type="file" name="uploadFoto2" required>
+                <input type="file" name="uploadFoto[]" required>
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
               </div>
               <div class="form-group">
                 <label for="uploadKartu">Kartu NIS</label>
-                <input type="file" name="uploadNIS2" required>
+                <input type="file" name="uploadNIS[]" required>
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
               </div>
             </div>
@@ -187,12 +194,12 @@
               </div>
               <div class="form-group">
                 <label for="uploadFoto">Pas Foto</label>
-                <input type="file" name="uploadFoto3" required>
+                <input type="file" name="uploadFoto[]" required>
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
               </div>
               <div class="form-group">
                 <label for="uploadKartu">Kartu NIS</label>
-                <input type="file" name="uploadNIS3" required>
+                <input type="file" name="uploadNIS[]" required>
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
               </div>
             </div>
@@ -207,105 +214,11 @@
       </div>
     </div>
     <div class="text-center">
-      <button type="submit" class="btn btn-primary">DAFTAR</button>
+      <button type="submit" name= "btn-upload"class="btn btn-primary">DAFTAR</button>
     </div>
     </form>
   </div>
-<?php 
-  if(isset($_POST['sekolah'])){
-      $telepon = $_POST['phone'];
-      $sekolah = $_POST['sekolah'];
-      $alamat_sekolah = $_POST['alamat_sekolah'];
-      $metode = $_POST['metode_ujian'];
-      $select = $_POST['lokasi'];
-      if ($select){
-        foreach ($select as $u){
-          if($u == 'all') {
-            echo 
-            "<div class='alert alert-warning col-md-10' style='text-align: center; margin-top:10px;'>
-              <strong>Warning!</strong> Mohon pilih lokasi
-            </div>";
-          } else {
-            $lokasi = $u;
-          }
-        }
-      }
-      $sqllokasi = "SELECT id FROM WILAYAH WHERE nama = '$lokasi'";
-      $resultlokasi = $conn->query($sqllokasi);
-      $rowlokasi = $resultlokasi->fetch_assoc();
-      $lokasi_id = $rowlokasi['id'];
 
-      $totalmember = 3;
-      $emailketua = '';
-      $username = '';
-      $sqlcurrent = "SELECT current_no, kode FROM WILAYAH WHERE id = '$lokasi_id'";
-      $resultcurrent = $conn->query($sqlcurrent);
-      $rowcurrent = $resultcurrent->fetch_assoc();
-      $current_no = $rowcurrent['current_no'];
-      $kode = $rowcurrent['kode'];
-      $nomor = '';
-      $current_no++;
-      $sql4 = "UPDATE WILAYAH SET current_no = $current_no WHERE id = '$lokasi_id'";
-      if ($conn->query($sql4) === FALSE) {
-        echo "Error: " . $sql4 . "<br>" . $conn->error;
-      }
-      if ($current_no > 99) {
-        $nomor = $current_no;
-      } else if ($current_no > 9) {
-        $nomor = '0'.$current_no;
-      } else {
-        $nomor = '00'.$current_no;
-      }
-      if (current_timestamp < '2016-08-02') {
-        if ($metode == 'offline_panwil') {
-          $username = 'B1600'.$kode.$nomor;
-        } else if ($metode == 'online_panwil') {
-           $username = 'C1600'.$kode.$nomor;
-        } else {
-           $username = 'D1600'.$kode.$nomor;
-        }
-      } else {
-        if ($metode == 'offline_panwil') {
-          $username = 'B1601'.$kode.$nomor;
-        } else if ($metode == 'online_panwil') {
-           $username = 'C1601'.$kode.$nomor;
-        } else {
-           $username = 'D1601'.$kode.$nomor;
-        }
-      }
-      //TESTING BLM PASSWORD BENER
-      $password = 'password';
-      $sqluser = "INSERT INTO (username,password,isAdmin) VALUES ('$username','$password','')";
-      if ($conn->query($sqluser) === FALSE) {
-        echo "Error: " . $sqluser . "<br>" . $conn->error;
-      }
-      for ($i = 1; $i <= $totalmember; $i++) {
-        $ketua = false;
-        $nama = $_POST['nama'.$i.''];
-        $email = $_POST['email'.$i.''];
-        $ttl = $_POST['ttl'.$i.''];
-        $nis = $_POST['nis'.$i.''];
-        //$uploadfoto = $_FILES['uploadFoto'.$i.'']['name'];
-        //$uploadNIS = $_FILES['uploadNIS'.$i.'']['name'];
-        if ($i == 1) {
-          $ketua = true;
-          $emailketua = $email;
-        }
-        $sqlteam = "INSERT INTO TEAM (telepon,metode,lokasi_id,sekolah,alamat_sekolah,registered_at,username,email) VALUES ('$telepon','$metode',$lokasi_id,'$sekolah','$alamat_sekolah',current_timestamp,'$username','$email')";
-        $sqlmember = "INSERT INTO MEMBER (nama,nis,ttl,email,isketua) VALUES ('$nama','$nis','$ttl','$email','$ketua')";
-        if ($conn->query($sqlteam) === FALSE) {
-          echo "Error: " . $sqlteam . "<br>" . $conn->error;
-        }
-        if ($conn->query($sqlmember) === FALSE) {
-          echo "Error: " . $sqlmember . "<br>" . $conn->error;
-        }
-      }
-      $conn->close();
-      //session_start();
-      //$_SESSION["teamlogin"] = $emailketua;
-      //header("Location: payment.php");
-    }
-?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
