@@ -140,9 +140,9 @@
     <div class="col-md-6">
         <p style="text-align:right" id='lokasi'><?php echo $lokasi;?></p>
     </div>     
-    <div class="col-md-6">
-        <button class="btn btn-primary">Ubah Password</button>
-    </div>
+<!--     <div class="col-md-6">
+        <button class="btn btn-primary"><a href='ubah_password.php'>Ubah Password</a></button>
+    </div> -->
 </div>  
   <div class="row" style="clear:both;margin-left:15%;">
     <?php
