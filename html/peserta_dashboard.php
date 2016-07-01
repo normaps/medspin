@@ -191,6 +191,8 @@
                       <div>'.$nis.'</div>
                       <div><b>NO HP:</b></div>
                       <div>'.$email.'</div>
+                      <div><b>Email:</b></div>
+                      <div>'.$email.'</div>
                     </div>
                     </div>';
             }
