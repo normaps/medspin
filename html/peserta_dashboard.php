@@ -4,6 +4,9 @@
   if(!isset($_SESSION["userlogin"])){
     header('Location: login.php');
   } else {
+    if ($_SESSION["isAdmin"]==true) {
+          header('Location: admin_dashboard.php');
+    }    
     $nomor_peserta =$_SESSION["userlogin"];
   }
 
