@@ -9,34 +9,29 @@
     }    
     $nomor_peserta =$_SESSION["userlogin"];
   }
-
   require 'connect.php';
   $conn = connectDB();
-
   //ambil data tim yang sedang login
   $sql = "SELECT DISTINCT * FROM team WHERE username='$nomor_peserta'";
   $result = mysqli_query($conn,$sql) or die (mysqli_error($conn));
 
-  $email = $asal_sekolah = $alamat = $lokasi_id = $metode = "";
+  $telepon = $asal_sekolah = $kota = $lokasi_id = $metode = "";
 
   if ($result->num_rows > 0) { 
     //di fetch, ambil satu satu
     while ($datatim=mysqli_fetch_row($result))
     {
-      $email = $datatim[0];
-      $asal_sekolah = $datatim[3];
-      $alamat = $datatim[4];
-      $lokasi_id = $datatim[2]; //masih berbentuk nomor
-      $metode = $datatim[1];
+      $metode = $datatim[0];
+      $lokasi_id = $datatim[1];
+      $asal_sekolah = $datatim[2];
+      $kota = $datatim[6]; //masih berbentuk nomor
+      $status = $datatim[7];
     }
   }
-
-  //ambil nama lokasi dengan id tertenty
+  //ambil nama lokasi dengan id tertentu
   $sqlLokasi = "SELECT DISTINCT nama FROM wilayah WHERE id='$lokasi_id'";
   $resultLokasi = mysqli_query($conn,$sqlLokasi) or die (mysqli_error($conn));
-
   $lokasi="";
-
   if ($resultLokasi->num_rows > 0) {
     //di fetch, ambil satu satu
     while ($dataLokasi=mysqli_fetch_row($resultLokasi))
@@ -44,7 +39,6 @@
       $lokasi = $dataLokasi[0];
     }
   }  
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,8 +62,8 @@
   </style>
 </head>
 <body style="background:url(http://medspinfkunair.com/pq/images/bg-w.png);">
-
 <nav class="navbar navbar-inverse" style="color:white; background-color:#028fcc; border-color:#028fcc;">
+ <div class="navbar-inner">
   <div class="container-fluid">
     <div class="navbar-header" style="margin:10px;">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -79,18 +73,16 @@
       </button>
       <h5>MEDSPIN FK UNAIR 2016</h5>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="peserta_dashboard.php" style="color:white;">TIM</a></li>
-        <li><a href="peserta_infolomba.php" style="color:white;">INFO LOMBA</a></li>
-      </ul>
+    <div class="collapse navbar-collapse" role="navigation" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-              <li><a href="logout.php" style="color:white;"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li><a href="peserta_dashboard.php" style="color:white;">Profil</a></li>
+        <li><a href="peserta_infolomba.php" style="color:white;">Info Lomba</a></li>
+        <li><a href="logout.php" style="color:white;"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>
+</div>
 </nav>
-
 <div class="container">
   <div class="page-header">
     <h1>Welcome, <?php echo $nomor_peserta;?></h1>
@@ -109,76 +101,77 @@
         <p style="text-align:right" id='sekolah'><?php echo $asal_sekolah;?></p>
     </div>
     <div class="col-md-6">
-        <b>Alamat Sekolah:</b>
+        <b>Kota:</b>
     </div>
     <div class="col-md-6">
-        <p style="text-align:right" id='alamat'><?php echo $alamat;?></p>
-    </div>
-    <div class="col-md-6">
-        <b>Kota Asal/Provinsi:</b>
-    </div>
-    <div class="col-md-6">
-        <p style="text-align:right" id='asal_provinsi'>Bandung, Jawa Barat</p>
-    </div>    
+        <p style="text-align:right" id='alamat'><?php echo $kota;?></p>
+    </div>  
 </div>
 <div class="col-md-6" style="text-align:left;">
-    <div class="col-md-6">
-        <b>Email:</b>
-    </div>
-    <div class="col-md-6">
-        <p style="text-align:right" id='email'><?php echo $email;?></p>
-    </div>  
     <div class="col-md-6">
         <b>Metode Ujian:</b>
     </div>
     <div class="col-md-6">
-        <?php
-          //link to download pdf files
-          $link_form = 'form/'.$nomor_peserta.'.pdf';
-        ?>
-        <p style="text-align:right" id='ujian'><?php echo $metode;?> <a href=<?php echo $link_form?>>cetak form</a></p>
+        <p style="text-align:right" id='ujian'>
+          <?php 
+            if (strpos($metode, 'online') === true)
+              echo "Online";
+            else
+              echo "Offline";
+          ?>
+        </p>
     </div>
     <div class="col-md-6">
         <b>Lokasi:</b>
     </div>
     <div class="col-md-6">
         <p style="text-align:right" id='lokasi'><?php echo $lokasi;?></p>
-    </div>     
-<!--     <div class="col-md-6">
-        <button class="btn btn-primary"><a href='ubah_password.php'>Ubah Password</a></button>
-    </div> -->
-</div>  
-  <div class="row" style="clear:both;margin-left:15%;">
+    </div>
+    <div class="row">  
+      <div class="col-md-6">
+        <button class="btn btn-primary">Ubah Password</button>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-primary pull-right" style="text-align:right">Cetak Form</button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row" style="clear:both; margin-left:13%; padding:10px;">
     <?php
-
       //ambil data member tim yang sedang login
       $sqlEmail = "SELECT email FROM team WHERE username='$nomor_peserta'";
       $resultEmail = mysqli_query($conn,$sqlEmail) or die (mysqli_error($conn));
-
       if ($resultEmail->num_rows > 0) { 
         //di fetch, ambil satu satu
         while ($dataEmail=mysqli_fetch_row($resultEmail))
         {
           $email = $dataEmail[0];
-
           //ambil data member tim yang sedang login
-          $sqlMember = "SELECT * FROM member WHERE email='$email'"; 
+          $img = '';
+          $sqlimg = "SELECT file FROM tbl_uploads WHERE email='$email'";
+          $resultimg = mysqli_query($conn,$sqlimg) or die (mysqli_error($conn));
+          while ($rowimg = $resultimg->fetch_array()) {
+            if (strpos($rowimg['file'], 'foto') === true) {
+              $img = $rowimg['file'];
+              echo $img;
+            }
+          }
+          $sqlMember = "SELECT * FROM member WHERE email='$email'";
           $resultMember = mysqli_query($conn,$sqlMember) or die (mysqli_error($conn));
-
-          $nama = $nis = $ttl = "";
+          $nama = $nis = $hp = "";
           if ($resultMember->num_rows > 0) { 
             //di fetch, ambil satu satu
             while ($dataMember=mysqli_fetch_row($resultMember))
             {
               $nama  = $dataMember[0];
               $nis  = $dataMember[1];
-              $ttl  = $dataMember[2];
-              $ketua = $dataMember[4];
-              
-              echo '<div class="row col-md-3" id="card" style="background-color:white; padding:10px; margin:15px;border-radius:10px;">
+              $ketua = $dataMember[3];
+              $hp = $dataMember[4];
+              echo '<div class="row col-md-3" id="card" style="background-color:white; padding:10px; margin:20px;border-radius:10px;">
                     <div class="row">
                       <center>
-                      <img src="" name="peserta" width="140" height="140" border="0" class="img-circle">
+                      <img src="uploads/'.$img.'" name="peserta" width="140" height="140" border="0" class="img-circle">
                       <h3 class="media-heading">'.$nama.'</h3>';
               if ($ketua==1) {
                 echo "<small>Ketua</small>";
@@ -186,13 +179,14 @@
                 echo "<small>Anggota</small>";
               }
               echo '</center></div>
+                    <hr>
                     <div class="text-left">
                       <div><b>NIS:</b></div>
                       <div>'.$nis.'</div>
-                      <div><b>NO HP:</b></div>
-                      <div>'.$email.'</div>
                       <div><b>Email:</b></div>
                       <div>'.$email.'</div>
+                      <div><b>No HP:</b></div>
+                      <div>'.$hp.'</div>
                     </div>
                     </div>';
             }
@@ -203,12 +197,9 @@
     ?>   
   </div>
 </div>
-<footer class="footer" style="background:#028fcc;">
-      <div class="container">
-        <p class="text-muted" style="color:white;">&copy;  Newbeez </p>
-      </div>
-    </footer>
-
+<?php
+  require 'footer.php';
+?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
