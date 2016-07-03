@@ -1,13 +1,11 @@
-<?php
-  // belum ditangani kalau yang login adalah admin gabisa masuk peserta_dashboard
-  session_start();
-  if(!isset($_SESSION["userlogin"])){
-    header('Location: login.php');
-  } else {
-    if ($_SESSION["isAdmin"]==false) {
-          header('Location: peserta_dashboard.php');
-    }
-  }
+<?php session_start();
+  // if(!isset($_SESSION["userlogin"])){
+  //   header('Location: login.php');
+  // } else {
+  //   if ($_SESSION["isAdmin"]==false) {
+  //         header('Location: peserta_dashboard.php');
+  //   }
+  // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,8 +106,14 @@
           <?php
 
             $lokasi = $_GET['lokasi'];
+            // echo $lokasi;
+            $sqlLokasi2='';
+            if ($lokasi=='--All--') {
+              $sqlLokasi2 = "SELECT * FROM wilayah";            
+            } else {
+              $sqlLokasi2 = "SELECT * FROM wilayah WHERE nama='$lokasi'";
+            }
 
-            $sqlLokasi2 = "SELECT * FROM wilayah WHERE nama='$lokasi'";
             $resultLokasi2 = mysqli_query($conn,$sqlLokasi2) or die (mysqli_error($conn)); 
 
             $lokasi_id=0;
@@ -117,56 +121,51 @@
               //di fetch, ambil satu satu
               while ($dataLokasi2=mysqli_fetch_row($resultLokasi2))
               {
+                //bisa lebih dari 1, karena ada yang online ada yang offline
                 $lokasi_id=$dataLokasi2[0];
+                $nama_lokasi=$dataLokasi2[2];
+                $sqlTable ="";
+            
+                if($lokasi_id==0) {
+                  //all
+                  $sqlTable = "SELECT * FROM team WHERE isApproved='0'";
+                } else {
+                  $sqlTable = "SELECT * FROM team WHERE lokasi_id='$lokasi_id' and isApproved='0'"; //diambil yang offline dan online
+                }
+
+                 $resultTable = mysqli_query($conn,$sqlTable) or die (mysqli_error($conn)); 
+                  if ($resultTable->num_rows > 0) { 
+                    //di fetch, ambil satu satu
+                    while ($dataTable=mysqli_fetch_row($resultTable)) //
+                    {
+                      $metode='';
+                      if ($dataTable[0]=='online_panwil') {
+                        $metode="offline";
+                      } else if ($dataTable[0]=='offline_panwil') {
+                        $metode="offline";
+                      } else {
+                        $metode="offline";
+                      }
+                      $sqlKetua = "SELECT * FROM member WHERE email='$dataTable[5]'"; //email sudah dipastikan email ketua
+                      $resultKetua = mysqli_query($conn,$sqlKetua) or die (mysqli_error($conn)); 
+                      $namaKetua=$teleponKetua="";
+                      while($dataKetua=mysqli_fetch_row($resultKetua)) {
+                        $namaKetua=$dataKetua[0];
+                        $teleponKetua=$dataKetua[4]; 
+                      }
+
+                      echo '<tr>
+                            <td>'.$dataTable[3].'</td> 
+                            <td>'.$namaKetua.'</td>
+                            <td>'.$dataTable[5].'</td>
+                            <td>'.$teleponKetua.'</td>
+                            <td>'.$dataTable[2].'</td>
+                            <td>'.$nama_lokasi.'</td>
+                            <td>'.$metode.'</td>
+                            <td><button class="btn btn-primary" onclick="window.location.href=\'data_detail.php\'">details</button></td>
+                            </tr>';
               }
             } //kalau gaada, berarti All
-
-            $sqlTable ="";
-            
-            if($lokasi_id==0) {
-              //all
-              $sqlTable = "SELECT * FROM team WHERE isApproved='0' group by telepon";
-            } else {
-              $sqlTable = "SELECT * FROM team WHERE lokasi_id='$lokasi_id' and isApproved='0' group by telepon";
-            }
-
-             $resultTable = mysqli_query($conn,$sqlTable) or die (mysqli_error($conn)); 
-              if ($resultTable->num_rows > 0) { 
-                //di fetch, ambil satu satu
-                while ($dataTable=mysqli_fetch_row($resultTable))
-                {
-                  $sqlKetua="";
-                  if ($lokasi_id==0) {
-                      $sqlLokasi3 = "SELECT nama FROM wilayah WHERE id='$dataTable[2]'";
-                      $resultLokasi3 = mysqli_query($conn,$sqlLokasi3) or die (mysqli_error($conn)); 
-                      if ($resultLokasi3->num_rows > 0) { 
-                        //di fetch, ambil satu satu
-                        while ($dataLokasi3=mysqli_fetch_row($resultLokasi3))
-                        {
-                          $lokasi=$dataLokasi3[0];
-                        }
-                      }
-                      $sqlKetua = "SELECT * FROM team t join member m on t.email=m.email WHERE telepon='$dataTable[0]' and isApproved='0' and isKetua='1'";
-                  } else {
-                      $sqlKetua = "SELECT * FROM team t join member m on t.email=m.email WHERE telepon='$dataTable[0]' and lokasi_id='$lokasi_id' and isApproved='0' and isKetua='1'";
-                  }
-                  $resultKetua = mysqli_query($conn,$sqlKetua) or die (mysqli_error($conn));
-                  if ($resultKetua->num_rows > 0) { 
-                    //di fetch, ambil satu satu
-                    while ($dataKetua=mysqli_fetch_row($resultKetua))
-                    {
-                      echo '<tr>
-                          <td>'.$dataTable[5].'</td>
-                          <td>'.$dataKetua[9].'</td>
-                          <td>'.$dataKetua[7].'</td>
-                          <td>'.$dataTable[0].'</td>
-                          <td>'.$dataTable[3].'</td>
-                          <td>'.$lokasi.'</td>
-                          <td>'.$dataTable[1].'</td>
-                          <td><button class="btn btn-primary" onclick="window.location.href=\'data_detail.html\'">details</button></td>
-                        </tr>';
-                    }
-                  }                  
                 }
               } else {
                 echo "<tr><td>0 results</td></tr>";  
